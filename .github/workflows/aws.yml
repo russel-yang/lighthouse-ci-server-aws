@@ -1,0 +1,23 @@
+name: T2GP lighthouse ci server
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    name: build lighthouse ci server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: build image
+        run: |
+          docker version
+          docker build -t lhci -f Dockerfile .
+          docker images
