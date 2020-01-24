@@ -10,11 +10,5 @@
       "HostPort": "9001"
     }
   ],
-  "Volumes": [
-    {
-      "HostDirectory": "/var/lhci/data",
-      "ContainerDirectory": "/data"
-    }
-  ],
   "Logging": "/var/log/lhci"
 }
