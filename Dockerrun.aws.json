@@ -1,0 +1,20 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "354767525209.dkr.ecr.us-east-1.amazonaws.com/lhci:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "9001",
+      "HostPort": "9001"
+    }
+  ],
+  "Volumes": [
+    {
+      "HostDirectory": "/var/lhci/data",
+      "ContainerDirectory": "/data"
+    }
+  ],
+  "Logging": "/var/log/lhci"
+}

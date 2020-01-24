@@ -30,3 +30,16 @@ jobs:
           region: us-east-1
           local-image: lhci
           image: lhci:latest
+      - name: zip the artifact
+        run: zip deploy.zip Dockerrun.aws.json
+      - name: Deploy to EB
+        uses: russel-yang/beanstalk-deploy@master
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: lighthouse-ci-server
+          environment_name: LighthouseCiServer-env
+          version_label: latest
+          version_description: lighthouseCIServer
+          region: us-east-1
+          deployment_package: deploy.zip
