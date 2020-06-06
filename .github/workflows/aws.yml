@@ -21,7 +21,7 @@ jobs:
         uses: russel-yang/buildinfo-actions@master
         with:
           labels: '${{ toJson(github.event.pull_request.labels.*.name) }}'
-          master_environment_name: LighthouseCiServer-env      
+          master_environment_name: LighthouseCiServer-env
       - name: build image
         run: |
           docker version
@@ -36,25 +36,3 @@ jobs:
           region: us-east-1
           local-image: lhci
           image: lhci:${{ steps.build_info.outputs.version }}
-      - name: generate beanstalk deploy artifact
-        uses: russel-yang/beanstalk-artifact@master
-        with:
-          hash: ${{ steps.build_info.outputs.version }}
-          aws_region: us-east-1
-          repository: lhci
-      - name: test result
-        run: |
-          cat Dockerrun.aws.json                    
-      - name: zip the artifact
-        run: zip deploy.zip Dockerrun.aws.json
-      - name: Deploy to EB
-        uses: russel-yang/beanstalk-deploy@master
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: lighthouse-ci-server
-          environment_name: ${{ steps.build_info.outputs.environment_name }}
-          version_label: ${{ steps.build_info.outputs.version }}
-          version_description: ${{ steps.build_info.outputs.branch_name }}
-          region: us-east-1
-          deployment_package: deploy.zip
